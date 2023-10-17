@@ -33,6 +33,7 @@ public class StatsServiceImpl implements StatsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end, String[] uris, Boolean unique) {
         validateDateRange(start, end);
         List<ViewStats> result = unique ? getStatsUnique(start, end, uris) : getAll(start, end, uris);
