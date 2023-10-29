@@ -8,14 +8,14 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-public class ErrorResponseDTO {
+public class ErrorResponseDto {
     private String status;
     private String reason;
     private String message;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime timestamp;
 
-    public ErrorResponseDTO(String status, String reason, String message) {
+    public ErrorResponseDto(String status, String reason, String message) {
         this.status = status;
         this.reason = reason;
         this.message = message;

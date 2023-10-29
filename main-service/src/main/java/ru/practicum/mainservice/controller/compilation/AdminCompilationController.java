@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.mainservice.dto.compilation.CompilationDTO;
-import ru.practicum.mainservice.dto.compilation.CreateCompilationDTO;
-import ru.practicum.mainservice.dto.compilation.UpdateCompilationDTO;
+import ru.practicum.mainservice.dto.compilation.CompilationDto;
+import ru.practicum.mainservice.dto.compilation.CreateCompilationDto;
+import ru.practicum.mainservice.dto.compilation.UpdateCompilationDto;
 import ru.practicum.mainservice.service.CompilationService;
 
 import javax.validation.Valid;
@@ -25,9 +25,9 @@ public class AdminCompilationController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CompilationDTO createCompilation(@RequestBody @Valid CreateCompilationDTO dto) {
+    public CompilationDto createCompilation(@RequestBody @Valid CreateCompilationDto dto) {
         log.info("Получен запрос на создание подборки data={}", dto);
-        CompilationDTO compilation = compilationService.createCompilation(dto);
+        CompilationDto compilation = compilationService.createCompilation(dto);
         log.info("Подборка успешно создана data={}", compilation);
         return compilation;
     }
@@ -39,12 +39,12 @@ public class AdminCompilationController {
     }
 
     @PatchMapping("/{compId}")
-    public CompilationDTO updateCompilation(
+    public CompilationDto updateCompilation(
             @PathVariable @PositiveOrZero int compId,
-            @RequestBody(required = false) @Valid UpdateCompilationDTO dto
+            @RequestBody(required = false) @Valid UpdateCompilationDto dto
     ) {
         log.info("Получен запрос на изменение подборки data={}", dto);
-        CompilationDTO compilation = compilationService.updateCompilation(compId, dto);
+        CompilationDto compilation = compilationService.updateCompilation(compId, dto);
         log.info("Подборка успешно изменена data={}", compilation);
         return compilation;
     }

@@ -9,7 +9,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class AdminEventFilterDTO extends PageFilterDTO {
+public class AdminEventFilterDto extends PageFilterDto {
     private List<Integer> users;
     private List<EventState> states;
     private List<Integer> categories;

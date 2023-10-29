@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
-public class CreateCategoryDTO {
+public class CreateCategoryDto {
     @NotNull
     @NotBlank
     @Size(min = 1, max = 50)

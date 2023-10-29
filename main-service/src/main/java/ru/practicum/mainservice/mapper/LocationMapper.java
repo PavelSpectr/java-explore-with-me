@@ -1,13 +1,13 @@
 package ru.practicum.mainservice.mapper;
 
 import org.springframework.stereotype.Component;
-import ru.practicum.mainservice.dto.location.CreateLocationDTO;
-import ru.practicum.mainservice.dto.location.LocationDTO;
+import ru.practicum.mainservice.dto.location.CreateLocationDto;
+import ru.practicum.mainservice.dto.location.LocationDto;
 import ru.practicum.mainservice.model.Location;
 
 @Component
 public class LocationMapper {
-    public Location fromDto(CreateLocationDTO dto) {
+    public Location fromDto(CreateLocationDto dto) {
         if (dto == null)
             return null;
         Location location = new Location();
@@ -16,10 +16,10 @@ public class LocationMapper {
         return location;
     }
 
-    public LocationDTO toModel(Location location) {
+    public LocationDto toModel(Location location) {
         if (location == null)
             return null;
-        LocationDTO dto = new LocationDTO();
+        LocationDto dto = new LocationDto();
         dto.setId(location.getId());
         dto.setLon(location.getLon());
         dto.setLat(location.getLat());

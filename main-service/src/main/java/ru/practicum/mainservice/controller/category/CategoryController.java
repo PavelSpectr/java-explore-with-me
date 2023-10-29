@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.practicum.mainservice.dto.category.CategoryDTO;
-import ru.practicum.mainservice.dto.filter.PageFilterDTO;
+import ru.practicum.mainservice.dto.category.CategoryDto;
+import ru.practicum.mainservice.dto.filter.PageFilterDto;
 import ru.practicum.mainservice.service.CategoryService;
 
 import javax.validation.Valid;
@@ -26,17 +26,17 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public List<CategoryDTO> getCategories(@Valid PageFilterDTO pageableData) {
+    public List<CategoryDto> getCategories(@Valid PageFilterDto pageableData) {
         log.info("Получен запрос на получение категорий page={}", pageableData);
-        List<CategoryDTO> categories = categoryService.getAll(pageableData.getFrom(), pageableData.getSize());
+        List<CategoryDto> categories = categoryService.getAll(pageableData.getFrom(), pageableData.getSize());
         log.info("Найдено {} категорий", categories.size());
         return categories;
     }
 
     @GetMapping("/{categoryId}")
-    public CategoryDTO getCategories(@PathVariable @PositiveOrZero int categoryId) {
+    public CategoryDto getCategories(@PathVariable @PositiveOrZero int categoryId) {
         log.info("Получен запрос на получение категории categoryId={}", categoryId);
-        CategoryDTO category = categoryService.getById(categoryId);
+        CategoryDto category = categoryService.getById(categoryId);
         log.info("Получена категория {}", category);
         return category;
     }

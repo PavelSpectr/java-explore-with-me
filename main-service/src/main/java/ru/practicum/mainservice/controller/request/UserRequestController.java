@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.mainservice.dto.request.RequestDTO;
+import ru.practicum.mainservice.dto.request.RequestDto;
 import ru.practicum.mainservice.service.RequestService;
 
 import javax.validation.constraints.PositiveOrZero;
@@ -23,32 +23,32 @@ public class UserRequestController {
     private final RequestService requestService;
 
     @GetMapping
-    public List<RequestDTO> getUserRequests(@PathVariable @PositiveOrZero int userId) {
+    public List<RequestDto> getUserRequests(@PathVariable @PositiveOrZero int userId) {
         log.info("Запрос на получение заявок пользователя userId={}", userId);
-        List<RequestDTO> requests = requestService.getUserRequests(userId);
+        List<RequestDto> requests = requestService.getUserRequests(userId);
         log.info("Найдено {} заявок для пользователя userId={}", requests.size(), userId);
         return requests;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RequestDTO createRequest(
+    public RequestDto createRequest(
             @PathVariable @PositiveOrZero int userId,
             @PathParam(value = "eventId") @PositiveOrZero int eventId
     ) {
         log.info("Запрос на создание заявки на участие в событии userId={}, eventId={}", userId, eventId);
-        RequestDTO request = requestService.createRequest(userId, eventId);
+        RequestDto request = requestService.createRequest(userId, eventId);
         log.info("Заявка на участие в событии userId={}, eventId={}, request={}", userId, eventId, request);
         return request;
     }
 
     @PatchMapping("/{requestId}/cancel")
-    public RequestDTO cancelRequest(
+    public RequestDto cancelRequest(
             @PathVariable @PositiveOrZero int userId,
             @PathVariable @PositiveOrZero int requestId
     ) {
         log.info("Запрос на отмену заявки userId={}, requestId={}", userId, requestId);
-        RequestDTO request = requestService.cancelRequest(userId, requestId);
+        RequestDto request = requestService.cancelRequest(userId, requestId);
         log.info("Запрос на участие отменен userId={}, requestId={}, request={}", userId, requestId, request);
         return request;
     }

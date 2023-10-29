@@ -9,13 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.mainservice.client.ClientStatistic;
-import ru.practicum.mainservice.dto.StatDTO;
-import ru.practicum.mainservice.dto.event.CreateEventDTO;
-import ru.practicum.mainservice.dto.event.EventDTO;
-import ru.practicum.mainservice.dto.event.ShortEventDTO;
-import ru.practicum.mainservice.dto.event.UpdateEventDTO;
-import ru.practicum.mainservice.dto.filter.AdminEventFilterDTO;
-import ru.practicum.mainservice.dto.filter.EventFilterDTO;
+import ru.practicum.mainservice.dto.StatDto;
+import ru.practicum.mainservice.dto.event.CreateEventDto;
+import ru.practicum.mainservice.dto.event.EventDto;
+import ru.practicum.mainservice.dto.event.ShortEventDto;
+import ru.practicum.mainservice.dto.event.UpdateEventDto;
+import ru.practicum.mainservice.dto.filter.AdminEventFilterDto;
+import ru.practicum.mainservice.dto.filter.EventFilterDto;
 import ru.practicum.mainservice.enums.EventSort;
 import ru.practicum.mainservice.enums.EventState;
 import ru.practicum.mainservice.enums.StatusRequest;
@@ -63,7 +63,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventDTO createEvent(int userId, CreateEventDTO dto) {
+    public EventDto createEvent(int userId, CreateEventDto dto) {
         checkEventDate(dto.getEventDate());
         Category category = categoryService.getCategoryById(dto.getCategory());
         User initiator = userService.getUserById(userId);
@@ -77,7 +77,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventDTO updateEvent(int userId, int eventId, UpdateEventDTO dto) {
+    public EventDto updateEvent(int userId, int eventId, UpdateEventDto dto) {
         Event fromDB = getEventById(eventId);
         if (!fromDB.getInitiator().getId().equals(userId))
             throw new APIException(
@@ -106,7 +106,7 @@ public class EventServiceImpl implements EventService {
         return toDto(Collections.singletonList(fromDB)).get(0);
     }
 
-    private List<EventDTO> toDto(List<Event> events) {
+    private List<EventDto> toDto(List<Event> events) {
         Map<Integer, Integer> views = getViews(events);
         Map<Integer, Integer> confirmedRequests = getConfirmedRequests(events);
         return events.stream().map(event -> eventMapper.toDto(
@@ -127,7 +127,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventDTO updateAdminEvent(int eventId, UpdateEventDTO dto) {
+    public EventDto updateAdminEvent(int eventId, UpdateEventDto dto) {
         Event fromDB = getEventById(eventId);
         if (dto.getStateAction() != null && !EventState.PENDING.equals(fromDB.getState())) {
             if (UpdateEventState.PUBLISH_EVENT.equals(dto.getStateAction()))
@@ -160,7 +160,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void updateEvent(Event fromDB, UpdateEventDTO dto) {
+    public void updateEvent(Event fromDB, UpdateEventDto dto) {
         if (Objects.nonNull(dto.getCategory())) {
             Category category = categoryService.getCategoryById(dto.getCategory());
             fromDB.setCategory(category);
@@ -188,7 +188,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ShortEventDTO> getAll(int userId, int from, int size) {
+    public List<ShortEventDto> getAll(int userId, int from, int size) {
         Pageable pageable = new OffsetBasedPageRequest(from, size);
         List<Event> events = eventRepository.findAllByInitiatorId(userId, pageable);
         return events.stream().map(eventMapper::toShortDto).collect(Collectors.toList());
@@ -196,7 +196,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional(readOnly = true)
-    public EventDTO getByInitiatorAndId(int userId, int eventId) {
+    public EventDto getByInitiatorAndId(int userId, int eventId) {
         Event event = eventRepository.findByInitiatorIdAndId(userId, eventId)
                 .orElseThrow(() -> new APIException(
                         HttpStatus.NOT_FOUND,
@@ -208,7 +208,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional(readOnly = true)
-    public EventDTO getPublishedEventById(int eventId) {
+    public EventDto getPublishedEventById(int eventId) {
         Event event = getEventById(eventId);
         if (!EventState.PUBLISHED.equals(event.getState()))
             throw new APIException(
@@ -221,7 +221,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ShortEventDTO> findEvents(EventFilterDTO eventFilter) {
+    public List<ShortEventDto> findEvents(EventFilterDto eventFilter) {
         if (
                 Objects.nonNull(eventFilter.getRangeStart())
                         && Objects.nonNull(eventFilter.getRangeEnd())
@@ -249,7 +249,7 @@ public class EventServiceImpl implements EventService {
     public Map<Integer, Integer> getViews(List<Event> events) {
         List<String> uris = events.stream().map(event -> "/events/" + event.getId()).collect(Collectors.toList());
         log.info("uris - {}", uris);
-        List<StatDTO> stats = clientStatistic.getStats(
+        List<StatDto> stats = clientStatistic.getStats(
                 "2000-01-01 00:00:00",
                 "3000-01-01 00:00:00",
                 uris,
@@ -261,7 +261,7 @@ public class EventServiceImpl implements EventService {
         if (stats.isEmpty())
             return Collections.emptyMap();
         Map<Integer, Integer> views = new HashMap<>(uris.size() << 1);
-        for (StatDTO state : stats) {
+        for (StatDto state : stats) {
             String eventIdStr = state.getUri().substring(state.getUri().lastIndexOf('/') + 1);
             int eventId = Integer.parseInt(eventIdStr);
             views.put(eventId, state.getHits());
@@ -278,7 +278,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<EventDTO> findEvents(AdminEventFilterDTO eventFilter) {
+    public List<EventDto> findEvents(AdminEventFilterDto eventFilter) {
         Pageable pageable = new OffsetBasedPageRequest(eventFilter.getFrom(), eventFilter.getSize());
         List<Event> events = eventRepository.findAll(isOnlyTheFilter(eventFilter), pageable).getContent();
         return toDto(events);
@@ -286,7 +286,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<EventDTO> findAllByIds(List<Integer> eventIds) {
+    public List<EventDto> findAllByIds(List<Integer> eventIds) {
         List<Event> events = eventRepository.findAllById(eventIds);
         return toDto(events);
     }
@@ -301,7 +301,7 @@ public class EventServiceImpl implements EventService {
         clientStatistic.create(request);
     }
 
-    private Specification<Event> isOnlyTheFilter(AdminEventFilterDTO filter) {
+    private Specification<Event> isOnlyTheFilter(AdminEventFilterDto filter) {
         return (root, query, builder) -> {
             List<Predicate> predicates = new LinkedList<>();
             if (Objects.nonNull(filter.getUsers()) && !filter.getUsers().isEmpty())
@@ -318,7 +318,7 @@ public class EventServiceImpl implements EventService {
         };
     }
 
-    private Specification<Event> isOnlyTheFilter(EventFilterDTO filter) {
+    private Specification<Event> isOnlyTheFilter(EventFilterDto filter) {
         return (root, query, builder) -> {
             List<Predicate> predicates = new LinkedList<>();
             if (Objects.nonNull(filter.getText()) && !filter.getText().trim().isEmpty())

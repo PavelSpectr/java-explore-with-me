@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.mainservice.dto.filter.PageFilterDTO;
-import ru.practicum.mainservice.dto.user.CreateUserDTO;
-import ru.practicum.mainservice.dto.user.UserDTO;
+import ru.practicum.mainservice.dto.filter.PageFilterDto;
+import ru.practicum.mainservice.dto.user.CreateUserDto;
+import ru.practicum.mainservice.dto.user.UserDto;
 import ru.practicum.mainservice.service.UserService;
 
 import javax.validation.Valid;
@@ -25,12 +25,12 @@ public class AdminUserController {
     private final UserService userService;
 
     @GetMapping
-    public List<UserDTO> getUsers(
-            PageFilterDTO pageableData,
+    public List<UserDto> getUsers(
+            PageFilterDto pageableData,
             @RequestParam(value = "ids", required = false) List<Integer> ids
     ) {
         log.info("Запрос на получение пользователей ids={} data={}", ids, pageableData);
-        List<UserDTO> users = ids == null || ids.isEmpty()
+        List<UserDto> users = ids == null || ids.isEmpty()
                 ? userService.getUsers(pageableData.getFrom(), pageableData.getSize())
                 : userService.getUsers(ids);
         log.info("Получено пользователей {}", users.size());
@@ -39,9 +39,9 @@ public class AdminUserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO createUser(@RequestBody @Valid CreateUserDTO dto) {
+    public UserDto createUser(@RequestBody @Valid CreateUserDto dto) {
         log.info("Получен запрос на создание пользователя data={}", dto);
-        UserDTO user = userService.createUser(dto);
+        UserDto user = userService.createUser(dto);
         log.info("Успешное создание пользователя data={}", user);
         return user;
     }

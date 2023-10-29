@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-public class CreateCommentDTO {
+public class CreateCommentDto {
     @NotBlank
     @Size(min = 5, max = 1000)
     private String text;

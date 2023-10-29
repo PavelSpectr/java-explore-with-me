@@ -3,8 +3,7 @@ package ru.practicum.mainservice.dto.location;
 import lombok.Data;
 
 @Data
-public class LocationDTO {
-    private int id;
+public class CreateLocationDto {
     private double lat;
     private double lon;
 }

@@ -1,20 +1,20 @@
 package ru.practicum.mainservice.mapper;
 
 import org.springframework.stereotype.Component;
-import ru.practicum.mainservice.dto.category.CategoryDTO;
-import ru.practicum.mainservice.dto.category.CreateCategoryDTO;
+import ru.practicum.mainservice.dto.category.CategoryDto;
+import ru.practicum.mainservice.dto.category.CreateCategoryDto;
 import ru.practicum.mainservice.model.Category;
 
 @Component
 public class CategoryMapper {
-    public CategoryDTO toDto(Category category) {
-        CategoryDTO dto = new CategoryDTO();
+    public CategoryDto toDto(Category category) {
+        CategoryDto dto = new CategoryDto();
         dto.setId(category.getId());
         dto.setName(category.getName());
         return dto;
     }
 
-    public Category toModel(CreateCategoryDTO dto) {
+    public Category toModel(CreateCategoryDto dto) {
         Category category = new Category();
         category.setName(dto.getName());
         return category;

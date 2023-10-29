@@ -7,7 +7,7 @@ import ru.practicum.mainservice.enums.StatusRequest;
 import java.time.LocalDateTime;
 
 @Data
-public class RequestDTO {
+public class RequestDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime created;
     private int event;

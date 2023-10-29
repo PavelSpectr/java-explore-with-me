@@ -8,9 +8,9 @@ import java.util.List;
 
 @Builder
 @Data
-public class UpdateRequestResultDTO {
+public class UpdateRequestResultDto {
     @Singular
-    private List<RequestDTO> confirmedRequests;
+    private List<RequestDto> confirmedRequests;
     @Singular
-    private List<RequestDTO> rejectedRequests;
+    private List<RequestDto> rejectedRequests;
 }

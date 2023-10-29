@@ -5,8 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.mainservice.dto.comment.CommentDTO;
-import ru.practicum.mainservice.dto.comment.CreateCommentDTO;
+import ru.practicum.mainservice.dto.comment.CommentDto;
+import ru.practicum.mainservice.dto.comment.CreateCommentDto;
 import ru.practicum.mainservice.service.CommentService;
 
 import javax.validation.Valid;
@@ -22,8 +22,8 @@ public class AdminCommentController {
     private final CommentService commentService;
 
     @PatchMapping("/{commentId}")
-    public CommentDTO renewalCommentAdmin(
-            @RequestBody @Valid CreateCommentDTO dto,
+    public CommentDto renewalCommentAdmin(
+            @RequestBody @Valid CreateCommentDto dto,
             @PathVariable @PositiveOrZero Integer commentId
     ) {
         log.info("Запрос на обновление комментария commentID={} администратором", commentId);

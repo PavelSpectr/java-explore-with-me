@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
-public class UpdateRequestDTO {
+public class UpdateRequestDto {
     private List<Integer> requestIds;
     @NotNull
     private StatusRequest status;

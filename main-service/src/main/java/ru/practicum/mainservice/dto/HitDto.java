@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HitDTO {
+public class HitDto {
     private String app;
     private String uri;
     private String ip;

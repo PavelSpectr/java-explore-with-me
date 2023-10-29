@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.mainservice.dto.comment.CommentDTO;
-import ru.practicum.mainservice.dto.comment.CreateCommentDTO;
-import ru.practicum.mainservice.dto.filter.PageFilterDTO;
+import ru.practicum.mainservice.dto.comment.CommentDto;
+import ru.practicum.mainservice.dto.comment.CreateCommentDto;
+import ru.practicum.mainservice.dto.filter.PageFilterDto;
 import ru.practicum.mainservice.service.CommentService;
 
 import javax.validation.Valid;
@@ -25,8 +25,8 @@ public class UserCommentController {
 
     @PostMapping("/events/{eventId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public CommentDTO addComment(
-            @RequestBody @Valid CreateCommentDTO dto,
+    public CommentDto addComment(
+            @RequestBody @Valid CreateCommentDto dto,
             @PathVariable @PositiveOrZero Integer userId,
             @PathVariable @PositiveOrZero Integer eventId
     ) {
@@ -35,8 +35,8 @@ public class UserCommentController {
     }
 
     @PatchMapping("/{commentId}")
-    public CommentDTO renewalComment(
-            @RequestBody @Valid CreateCommentDTO dto,
+    public CommentDto renewalComment(
+            @RequestBody @Valid CreateCommentDto dto,
             @PathVariable @PositiveOrZero Integer userId,
             @PathVariable @PositiveOrZero Integer commentId
     ) {
@@ -45,7 +45,7 @@ public class UserCommentController {
     }
 
     @GetMapping("/{commentId}")
-    public CommentDTO getCommentById(
+    public CommentDto getCommentById(
             @PathVariable @PositiveOrZero Integer userId,
             @PathVariable @PositiveOrZero Integer commentId
     ) {
@@ -54,9 +54,9 @@ public class UserCommentController {
     }
 
     @GetMapping
-    public List<CommentDTO> getAllUserComments(
+    public List<CommentDto> getAllUserComments(
             @PathVariable Integer userId,
-            @Valid PageFilterDTO pageFilter
+            @Valid PageFilterDto pageFilter
     ) {
         log.info("Запрос на списка комментариев от пользователя userId={}", userId);
         return commentService.getAllUserComments(userId, pageFilter.getFrom(), pageFilter.getSize());
