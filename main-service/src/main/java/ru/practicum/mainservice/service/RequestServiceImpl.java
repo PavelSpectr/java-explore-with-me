@@ -136,7 +136,7 @@ public class RequestServiceImpl implements RequestService {
             else
                 request.setStatus(StatusRequest.REJECTED);
         }
-        UpdateRequestResultDto.UpdateRequestResultDTOBuilder builder = UpdateRequestResultDto.builder();
+        UpdateRequestResultDto.UpdateRequestResultDtoBuilder builder = UpdateRequestResultDto.builder();
         for (Request request : requests) {
             if (StatusRequest.CONFIRMED.equals(request.getStatus()))
                 builder.confirmedRequest(requestMapper.toDto(request));
