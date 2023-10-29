@@ -11,6 +11,7 @@ import ru.practicum.mainservice.exception.APIException;
 import ru.practicum.mainservice.mapper.CategoryMapper;
 import ru.practicum.mainservice.model.Category;
 import ru.practicum.mainservice.repository.CategoryRepository;
+import ru.practicum.mainservice.repository.EventRepository;
 import ru.practicum.mainservice.util.OffsetBasedPageRequest;
 
 import java.util.List;
@@ -18,10 +19,11 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServiceImpl implements CategoryService { //Вызов идет не по репозиторию, а через маппер по причине рекурсии вызовов
 
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
+    private final EventRepository eventRepository;
 
     @Override
     @Transactional
@@ -52,7 +54,12 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public void delete(int categoryId) {
         Category category = getCategoryById(categoryId);
-        categoryRepository.delete(category);
+        if (category != null) {
+            boolean hasEventsInCategory = eventRepository.findAll().contains(category);
+            if (!hasEventsInCategory) {
+                categoryRepository.delete(category);
+            }
+        }
     }
 
     @Override

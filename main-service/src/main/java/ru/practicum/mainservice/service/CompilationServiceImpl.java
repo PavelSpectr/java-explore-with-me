@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CompilationServiceImpl implements CompilationService {
+public class CompilationServiceImpl implements CompilationService { //Вызов идет не по репозиторию, а через маппер по причине рекурсии вызовов
 
     private final CompilationRepository compilationRepository;
     private final CompilationMapper compilationMapper;

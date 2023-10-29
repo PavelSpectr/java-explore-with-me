@@ -34,7 +34,6 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -42,7 +41,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class EventServiceImpl implements EventService {
+public class EventServiceImpl implements EventService { //Вызов идет не по репозиторию, а через маппер по причине рекурсии вызовов
 
     private final EventRepository eventRepository;
     private final LocationRepository locationRepository;
@@ -117,7 +116,7 @@ public class EventServiceImpl implements EventService {
     }
 
     private void checkEventDate(LocalDateTime eventDate) {
-        if (eventDate != null && eventDate.isBefore(LocalDateTime.now().plus(2, ChronoUnit.HOURS))) {
+        if (eventDate != null && eventDate.isBefore(LocalDateTime.now().plusHours(2))) {
             throw new APIException(
                     HttpStatus.BAD_REQUEST,
                     "Event date most been 2 hours after now",
@@ -159,8 +158,7 @@ public class EventServiceImpl implements EventService {
         return toDto(Collections.singletonList(fromDB)).get(0);
     }
 
-    @Override
-    public void updateEvent(Event fromDB, UpdateEventDto dto) {
+    private void updateEvent(Event fromDB, UpdateEventDto dto) {
         if (Objects.nonNull(dto.getCategory())) {
             Category category = categoryService.getCategoryById(dto.getCategory());
             fromDB.setCategory(category);

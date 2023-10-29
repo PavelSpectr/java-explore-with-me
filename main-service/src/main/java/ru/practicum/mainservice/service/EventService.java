@@ -21,8 +21,6 @@ public interface EventService {
 
     EventDto updateAdminEvent(int eventId, UpdateEventDto dto);
 
-    void updateEvent(Event fromDB, UpdateEventDto dto);
-
     List<ShortEventDto> getAll(int userId, int from, int size);
 
     EventDto getByInitiatorAndId(int userId, int eventId);
