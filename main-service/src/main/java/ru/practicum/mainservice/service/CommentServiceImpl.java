@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.mainservice.dto.comment.CommentDto;
-import ru.practicum.mainservice.dto.comment.CreateCommentDto;
+import ru.practicum.mainservice.dto.comment.TextCommentDto;
 import ru.practicum.mainservice.dto.filter.PageFilterDto;
 import ru.practicum.mainservice.enums.EventState;
 import ru.practicum.mainservice.exception.APIException;
@@ -31,7 +31,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public CommentDto addComment(CreateCommentDto dto, Integer userId, Integer eventId) {
+    public CommentDto addComment(TextCommentDto dto, Integer userId, Integer eventId) {
         Event event = eventService.getEventById(eventId);
         User author = userService.getUserById(userId);
         if (EventState.PUBLISHED.equals(event.getState()))
@@ -49,7 +49,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public CommentDto editComment(CreateCommentDto dto, Integer userId, Integer commentId) {
+    public CommentDto editComment(TextCommentDto dto, Integer userId, Integer commentId) {
         Comment commentFromDB = getCommentById(commentId);
         User author = userService.getUserById(userId);
         if (!commentFromDB.getAuthor().getId().equals(author.getId()))
@@ -104,7 +104,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public CommentDto editCommentAdmin(Integer commentId, CreateCommentDto dto) {
+    public CommentDto editCommentAdmin(Integer commentId, TextCommentDto dto) {
         Comment commentFromDB = getCommentById(commentId);
         commentFromDB.setText(dto.getText());
         return commentMapper.toDto(commentFromDB);

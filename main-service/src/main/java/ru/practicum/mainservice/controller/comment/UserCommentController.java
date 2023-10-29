@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.dto.comment.CommentDto;
-import ru.practicum.mainservice.dto.comment.CreateCommentDto;
+import ru.practicum.mainservice.dto.comment.TextCommentDto;
 import ru.practicum.mainservice.dto.filter.PageFilterDto;
 import ru.practicum.mainservice.service.CommentService;
 
@@ -26,7 +26,7 @@ public class UserCommentController {
     @PostMapping("/events/{eventId}")
     @ResponseStatus(HttpStatus.CREATED)
     public CommentDto addComment(
-            @RequestBody @Valid CreateCommentDto dto,
+            @RequestBody @Valid TextCommentDto dto,
             @PathVariable @PositiveOrZero Integer userId,
             @PathVariable @PositiveOrZero Integer eventId
     ) {
@@ -35,8 +35,8 @@ public class UserCommentController {
     }
 
     @PatchMapping("/{commentId}")
-    public CommentDto renewalComment(
-            @RequestBody @Valid CreateCommentDto dto,
+    public CommentDto updateComment(
+            @RequestBody @Valid TextCommentDto dto,
             @PathVariable @PositiveOrZero Integer userId,
             @PathVariable @PositiveOrZero Integer commentId
     ) {

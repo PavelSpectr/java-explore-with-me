@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.dto.comment.CommentDto;
-import ru.practicum.mainservice.dto.comment.CreateCommentDto;
+import ru.practicum.mainservice.dto.comment.TextCommentDto;
 import ru.practicum.mainservice.service.CommentService;
 
 import javax.validation.Valid;
@@ -22,8 +22,8 @@ public class AdminCommentController {
     private final CommentService commentService;
 
     @PatchMapping("/{commentId}")
-    public CommentDto renewalCommentAdmin(
-            @RequestBody @Valid CreateCommentDto dto,
+    public CommentDto editCommentAdmin(
+            @RequestBody @Valid TextCommentDto dto,
             @PathVariable @PositiveOrZero Integer commentId
     ) {
         log.info("Запрос на обновление комментария commentID={} администратором", commentId);

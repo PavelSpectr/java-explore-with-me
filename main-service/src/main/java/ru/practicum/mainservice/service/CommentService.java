@@ -1,16 +1,16 @@
 package ru.practicum.mainservice.service;
 
 import ru.practicum.mainservice.dto.comment.CommentDto;
-import ru.practicum.mainservice.dto.comment.CreateCommentDto;
+import ru.practicum.mainservice.dto.comment.TextCommentDto;
 import ru.practicum.mainservice.dto.filter.PageFilterDto;
 import ru.practicum.mainservice.model.Comment;
 
 import java.util.List;
 
 public interface CommentService {
-    CommentDto addComment(CreateCommentDto dto, Integer userId, Integer eventId);
+    CommentDto addComment(TextCommentDto dto, Integer userId, Integer eventId);
 
-    CommentDto editComment(CreateCommentDto dto, Integer userId, Integer commentId);
+    CommentDto editComment(TextCommentDto dto, Integer userId, Integer commentId);
 
     CommentDto getById(Integer userId, Integer commentId);
 
@@ -20,7 +20,7 @@ public interface CommentService {
 
     void deleteCommentById(Integer userId, Integer commentId);
 
-    CommentDto editCommentAdmin(Integer commentId, CreateCommentDto dto);
+    CommentDto editCommentAdmin(Integer commentId, TextCommentDto dto);
 
     void deleteCommentAdmin(Integer commentId);
 
