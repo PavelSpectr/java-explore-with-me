@@ -2,10 +2,10 @@ package ru.practicum.mainservice.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.practicum.mainservice.dto.event.CreateEventDTO;
-import ru.practicum.mainservice.dto.event.EventDTO;
-import ru.practicum.mainservice.dto.event.ShortEventDTO;
-import ru.practicum.mainservice.dto.event.UpdateEventDTO;
+import ru.practicum.mainservice.dto.event.CreateEventDto;
+import ru.practicum.mainservice.dto.event.EventDto;
+import ru.practicum.mainservice.dto.event.ShortEventDto;
+import ru.practicum.mainservice.dto.event.UpdateEventDto;
 import ru.practicum.mainservice.model.Event;
 
 @Component
@@ -16,7 +16,7 @@ public class EventMapper {
     private final CategoryMapper categoryMapper;
     private final UserMapper userMapper;
 
-    public Event toModel(CreateEventDTO dto) {
+    public Event toModel(CreateEventDto dto) {
         Event event = new Event();
         event.setAnnotation(dto.getAnnotation());
         event.setDescription(dto.getDescription());
@@ -29,7 +29,7 @@ public class EventMapper {
         return event;
     }
 
-    public Event toModel(UpdateEventDTO dto) {
+    public Event toModel(UpdateEventDto dto) {
         Event event = new Event();
         event.setAnnotation(dto.getAnnotation());
         event.setDescription(dto.getDescription());
@@ -42,8 +42,8 @@ public class EventMapper {
         return event;
     }
 
-    public EventDTO toDto(Event event, int views, int confirmedRequests) {
-        EventDTO dto = new EventDTO();
+    public EventDto toDto(Event event, int views, int confirmedRequests) {
+        EventDto dto = new EventDto();
         dto.setId(event.getId());
         dto.setAnnotation(event.getAnnotation());
         dto.setCategory(categoryMapper.toDto(event.getCategory()));
@@ -63,8 +63,8 @@ public class EventMapper {
         return dto;
     }
 
-    public ShortEventDTO toShortDto(Event event) {
-        ShortEventDTO dto = new ShortEventDTO();
+    public ShortEventDto toShortDto(Event event) {
+        ShortEventDto dto = new ShortEventDto();
         dto.setId(event.getId());
         dto.setAnnotation(event.getAnnotation());
         dto.setCategory(categoryMapper.toDto(event.getCategory()));

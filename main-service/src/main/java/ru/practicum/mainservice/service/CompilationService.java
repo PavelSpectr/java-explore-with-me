@@ -1,22 +1,22 @@
 package ru.practicum.mainservice.service;
 
-import ru.practicum.mainservice.dto.compilation.CompilationDTO;
-import ru.practicum.mainservice.dto.compilation.CreateCompilationDTO;
-import ru.practicum.mainservice.dto.compilation.UpdateCompilationDTO;
+import ru.practicum.mainservice.dto.compilation.CompilationDto;
+import ru.practicum.mainservice.dto.compilation.CreateCompilationDto;
+import ru.practicum.mainservice.dto.compilation.UpdateCompilationDto;
 import ru.practicum.mainservice.model.Compilation;
 
 import java.util.List;
 
 public interface CompilationService {
-    CompilationDTO createCompilation(CreateCompilationDTO compilation);
+    CompilationDto createCompilation(CreateCompilationDto compilation);
 
-    CompilationDTO getCompilationById(int compilationId);
+    CompilationDto getCompilationById(int compilationId);
 
     Compilation getById(int compilationId);
 
     void deleteCompilation(int compilationId);
 
-    CompilationDTO updateCompilation(int compilationId, UpdateCompilationDTO compilation);
+    CompilationDto updateCompilation(int compilationId, UpdateCompilationDto compilation);
 
-    List<CompilationDTO> getCompilations(Boolean pinned, int from, int size);
+    List<CompilationDto> getCompilations(Boolean pinned, int from, int size);
 }

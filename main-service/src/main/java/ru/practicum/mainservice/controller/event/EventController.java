@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.practicum.mainservice.dto.event.EventDTO;
-import ru.practicum.mainservice.dto.event.ShortEventDTO;
-import ru.practicum.mainservice.dto.filter.EventFilterDTO;
+import ru.practicum.mainservice.dto.event.EventDto;
+import ru.practicum.mainservice.dto.event.ShortEventDto;
+import ru.practicum.mainservice.dto.filter.EventFilterDto;
 import ru.practicum.mainservice.service.EventService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,19 +28,19 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping
-    public List<ShortEventDTO> getEvents(@Valid EventFilterDTO eventFilter, HttpServletRequest request) {
+    public List<ShortEventDto> getEvents(@Valid EventFilterDto eventFilter, HttpServletRequest request) {
         log.info("Поиск событий по фильтру {}", eventFilter);
         eventService.addStatistic(request);
-        List<ShortEventDTO> events = eventService.findEvents(eventFilter);
+        List<ShortEventDto> events = eventService.findEvents(eventFilter);
         log.info("Найдено {} событий", events.size());
         return events;
     }
 
     @GetMapping("/{eventId}")
-    public EventDTO getEventById(@PathVariable @PositiveOrZero int eventId, HttpServletRequest request) {
+    public EventDto getEventById(@PathVariable @PositiveOrZero int eventId, HttpServletRequest request) {
         log.info("Получение публичного события по id={}", eventId);
         eventService.addStatistic(request);
-        EventDTO event = eventService.getPublishedEventById(eventId);
+        EventDto event = eventService.getPublishedEventById(eventId);
         log.info("Найдено событие {}", event);
         return event;
     }

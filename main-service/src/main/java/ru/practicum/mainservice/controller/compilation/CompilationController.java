@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.mainservice.dto.compilation.CompilationDTO;
-import ru.practicum.mainservice.dto.filter.PageFilterDTO;
+import ru.practicum.mainservice.dto.compilation.CompilationDto;
+import ru.practicum.mainservice.dto.filter.PageFilterDto;
 import ru.practicum.mainservice.service.CompilationService;
 
 import javax.validation.Valid;
@@ -22,12 +22,12 @@ public class CompilationController {
     private final CompilationService compilationService;
 
     @GetMapping
-    public List<CompilationDTO> getCompilations(
-            @Valid PageFilterDTO pageFilter,
+    public List<CompilationDto> getCompilations(
+            @Valid PageFilterDto pageFilter,
             @RequestParam(required = false) Boolean pinned
     ) {
         log.info("Запрос на список подборок pinned={} page={}", pinned, pageFilter);
-        List<CompilationDTO> compilations = compilationService.getCompilations(
+        List<CompilationDto> compilations = compilationService.getCompilations(
                 pinned,
                 pageFilter.getFrom(),
                 pageFilter.getSize()
@@ -37,9 +37,9 @@ public class CompilationController {
     }
 
     @GetMapping("/{compId}")
-    public CompilationDTO getCompilationById(@PathVariable @PositiveOrZero int compId) {
+    public CompilationDto getCompilationById(@PathVariable @PositiveOrZero int compId) {
         log.info("Запрос на получение подборки compId={}", compId);
-        CompilationDTO compilation = compilationService.getCompilationById(compId);
+        CompilationDto compilation = compilationService.getCompilationById(compId);
         log.info("Найдена подборка {}", compilation);
         return compilation;
     }

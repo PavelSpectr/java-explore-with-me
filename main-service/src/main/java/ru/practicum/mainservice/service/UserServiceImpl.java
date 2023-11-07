@@ -5,8 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.mainservice.dto.user.CreateUserDTO;
-import ru.practicum.mainservice.dto.user.UserDTO;
+import ru.practicum.mainservice.dto.user.CreateUserDto;
+import ru.practicum.mainservice.dto.user.UserDto;
 import ru.practicum.mainservice.exception.APIException;
 import ru.practicum.mainservice.mapper.UserMapper;
 import ru.practicum.mainservice.model.User;
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDTO createUser(CreateUserDTO dto) {
+    public UserDto createUser(CreateUserDto dto) {
         User user = new User();
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<UserDTO> getUsers(int from, int size) {
+    public List<UserDto> getUsers(int from, int size) {
         Pageable pageable = new OffsetBasedPageRequest(from, size);
         return userRepository.findAll(pageable).getContent().stream()
                 .map(userMapper::toDto).collect(Collectors.toList());
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<UserDTO> getUsers(List<Integer> ids) {
+    public List<UserDto> getUsers(List<Integer> ids) {
         return userRepository.findAllById(ids).stream().map(userMapper::toDto).collect(Collectors.toList());
     }
 }

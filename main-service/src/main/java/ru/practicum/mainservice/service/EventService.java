@@ -1,11 +1,11 @@
 package ru.practicum.mainservice.service;
 
-import ru.practicum.mainservice.dto.event.CreateEventDTO;
-import ru.practicum.mainservice.dto.event.EventDTO;
-import ru.practicum.mainservice.dto.event.ShortEventDTO;
-import ru.practicum.mainservice.dto.event.UpdateEventDTO;
-import ru.practicum.mainservice.dto.filter.AdminEventFilterDTO;
-import ru.practicum.mainservice.dto.filter.EventFilterDTO;
+import ru.practicum.mainservice.dto.event.CreateEventDto;
+import ru.practicum.mainservice.dto.event.EventDto;
+import ru.practicum.mainservice.dto.event.ShortEventDto;
+import ru.practicum.mainservice.dto.event.UpdateEventDto;
+import ru.practicum.mainservice.dto.filter.AdminEventFilterDto;
+import ru.practicum.mainservice.dto.filter.EventFilterDto;
 import ru.practicum.mainservice.model.Event;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,25 +15,23 @@ import java.util.Map;
 public interface EventService {
     Event getEventById(int eventId);
 
-    EventDTO createEvent(int userId, CreateEventDTO dto);
+    EventDto createEvent(int userId, CreateEventDto dto);
 
-    EventDTO updateEvent(int userId, int eventId, UpdateEventDTO dto);
+    EventDto updateEvent(int userId, int eventId, UpdateEventDto dto);
 
-    EventDTO updateAdminEvent(int eventId, UpdateEventDTO dto);
+    EventDto updateAdminEvent(int eventId, UpdateEventDto dto);
 
-    void updateEvent(Event fromDB, UpdateEventDTO dto);
+    List<ShortEventDto> getAll(int userId, int from, int size);
 
-    List<ShortEventDTO> getAll(int userId, int from, int size);
+    EventDto getByInitiatorAndId(int userId, int eventId);
 
-    EventDTO getByInitiatorAndId(int userId, int eventId);
+    EventDto getPublishedEventById(int eventId);
 
-    EventDTO getPublishedEventById(int eventId);
+    List<ShortEventDto> findEvents(EventFilterDto eventFilter);
 
-    List<ShortEventDTO> findEvents(EventFilterDTO eventFilter);
+    List<EventDto> findEvents(AdminEventFilterDto eventFilter);
 
-    List<EventDTO> findEvents(AdminEventFilterDTO eventFilter);
-
-    List<EventDTO> findAllByIds(List<Integer> eventIds);
+    List<EventDto> findAllByIds(List<Integer> eventIds);
 
     List<Event> findAllEventByIds(List<Integer> eventIds);
 

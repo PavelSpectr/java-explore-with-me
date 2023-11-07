@@ -5,9 +5,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.mainservice.dto.compilation.CompilationDTO;
-import ru.practicum.mainservice.dto.compilation.CreateCompilationDTO;
-import ru.practicum.mainservice.dto.compilation.UpdateCompilationDTO;
+import ru.practicum.mainservice.dto.compilation.CompilationDto;
+import ru.practicum.mainservice.dto.compilation.CreateCompilationDto;
+import ru.practicum.mainservice.dto.compilation.UpdateCompilationDto;
 import ru.practicum.mainservice.exception.APIException;
 import ru.practicum.mainservice.mapper.CompilationMapper;
 import ru.practicum.mainservice.model.Compilation;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CompilationServiceImpl implements CompilationService {
+public class CompilationServiceImpl implements CompilationService { //Вызов идет не по репозиторию, а через маппер по причине рекурсии вызовов
 
     private final CompilationRepository compilationRepository;
     private final CompilationMapper compilationMapper;
@@ -30,7 +30,7 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Override
     @Transactional
-    public CompilationDTO createCompilation(CreateCompilationDTO compilation) {
+    public CompilationDto createCompilation(CreateCompilationDto compilation) {
         List<Event> events = compilation.getEvents().isEmpty()
                 ? Collections.emptyList()
                 : eventService.findAllEventByIds(compilation.getEvents());
@@ -43,7 +43,7 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Override
     @Transactional(readOnly = true)
-    public CompilationDTO getCompilationById(int compilationId) {
+    public CompilationDto getCompilationById(int compilationId) {
         Compilation compilation = getById(compilationId);
         return compilationMapper.toDto(compilation);
     }
@@ -66,7 +66,7 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Override
     @Transactional
-    public CompilationDTO updateCompilation(int compilationId, UpdateCompilationDTO compilation) {
+    public CompilationDto updateCompilation(int compilationId, UpdateCompilationDto compilation) {
         Compilation compilationFromDB = getById(compilationId);
         List<Event> events = compilation.getEvents().isEmpty()
                 ? Collections.emptyList() : eventService.findAllEventByIds(compilation.getEvents());
@@ -78,7 +78,7 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<CompilationDTO> getCompilations(Boolean pinned, int from, int size) {
+    public List<CompilationDto> getCompilations(Boolean pinned, int from, int size) {
         Pageable pageable = new OffsetBasedPageRequest(from, size);
         List<Compilation> res;
         if (Objects.nonNull(pinned))

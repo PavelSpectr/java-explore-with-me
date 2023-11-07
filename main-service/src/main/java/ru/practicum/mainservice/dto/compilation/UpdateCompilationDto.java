@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Data
-public class UpdateCompilationDTO {
+public class UpdateCompilationDto {
     @UniqueElements
     private List<Integer> events = Collections.emptyList();
     private Boolean pinned = false;

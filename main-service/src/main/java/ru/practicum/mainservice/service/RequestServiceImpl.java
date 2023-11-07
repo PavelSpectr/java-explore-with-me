@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.mainservice.dto.request.RequestDTO;
-import ru.practicum.mainservice.dto.request.UpdateRequestDTO;
-import ru.practicum.mainservice.dto.request.UpdateRequestResultDTO;
+import ru.practicum.mainservice.dto.request.RequestDto;
+import ru.practicum.mainservice.dto.request.UpdateRequestDto;
+import ru.practicum.mainservice.dto.request.UpdateRequestResultDto;
 import ru.practicum.mainservice.enums.EventState;
 import ru.practicum.mainservice.enums.StatusRequest;
 import ru.practicum.mainservice.exception.APIException;
@@ -42,7 +42,7 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     @Transactional
-    public RequestDTO createRequest(int userId, int eventId) {
+    public RequestDto createRequest(int userId, int eventId) {
         Event event = eventService.getEventById(eventId);
         if (!EventState.PUBLISHED.equals(event.getState()))
             throw new APIException(
@@ -85,7 +85,7 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<RequestDTO> getUserRequests(int userId) {
+    public List<RequestDto> getUserRequests(int userId) {
         User requester = userService.getUserById(userId);
         return requestRepository.findAllByRequester(requester).stream()
                 .map(requestMapper::toDto).collect(Collectors.toList());
@@ -93,7 +93,7 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     @Transactional
-    public RequestDTO cancelRequest(int userId, int requestId) {
+    public RequestDto cancelRequest(int userId, int requestId) {
         Request request = getRequestById(requestId);
         request.setStatus(StatusRequest.CANCELED);
         return requestMapper.toDto(request);
@@ -101,14 +101,14 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<RequestDTO> getUserEventRequests(int userId, int eventId) {
+    public List<RequestDto> getUserEventRequests(int userId, int eventId) {
         Event event = eventService.getEventById(eventId);
         return requestRepository.findAllByEvent(event).stream().map(requestMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public UpdateRequestResultDTO updateRequests(int userId, int eventId, UpdateRequestDTO dto) {
+    public UpdateRequestResultDto updateRequests(int userId, int eventId, UpdateRequestDto dto) {
         Event event = eventService.getEventById(eventId);
         long eventConfirmedRequests = requestRepository.getEventRequestCountByStatus(eventId, StatusRequest.CONFIRMED);
         if (
@@ -136,7 +136,7 @@ public class RequestServiceImpl implements RequestService {
             else
                 request.setStatus(StatusRequest.REJECTED);
         }
-        UpdateRequestResultDTO.UpdateRequestResultDTOBuilder builder = UpdateRequestResultDTO.builder();
+        UpdateRequestResultDto.UpdateRequestResultDtoBuilder builder = UpdateRequestResultDto.builder();
         for (Request request : requests) {
             if (StatusRequest.CONFIRMED.equals(request.getStatus()))
                 builder.confirmedRequest(requestMapper.toDto(request));

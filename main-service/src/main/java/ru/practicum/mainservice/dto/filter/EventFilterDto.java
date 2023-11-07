@@ -9,7 +9,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class EventFilterDTO extends PageFilterDTO {
+public class EventFilterDto extends PageFilterDto {
     private String text;
     private List<Integer> categories;
     private Boolean paid;

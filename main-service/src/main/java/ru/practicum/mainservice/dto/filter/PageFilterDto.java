@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.Min;
 
 @Data
-public class PageFilterDTO {
+public class PageFilterDto {
     @Min(0)
     private Integer from = 0;
     @Min(1)

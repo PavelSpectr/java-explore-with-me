@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
-import ru.practicum.mainservice.dto.HitDTO;
-import ru.practicum.mainservice.dto.StatDTO;
+import ru.practicum.mainservice.dto.HitDto;
+import ru.practicum.mainservice.dto.StatDto;
 import ru.practicum.mainservice.exception.APIException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +37,7 @@ public class ClientStatistic {
     }
 
     public void create(HttpServletRequest request) {
-        HitDTO hitDto = new HitDTO(
+        HitDto hitDto = new HitDto(
                 "ewm-main-service",
                 request.getRequestURI(),
                 request.getRemoteAddr(),
@@ -48,7 +48,7 @@ public class ClientStatistic {
         });
     }
 
-    public ResponseEntity<List<StatDTO>> getStats(String start, String end, List<String> uris, Boolean unique) {
+    public ResponseEntity<List<StatDto>> getStats(String start, String end, List<String> uris, Boolean unique) {
         Map<String, Object> parameters = new HashMap<>();
         if (uris != null) {
             parameters.put("uris", String.join(",", uris));
@@ -65,7 +65,7 @@ public class ClientStatistic {
                 "/stats?start={start}&end={end}&uris={uris}&unique={unique}",
                 parameters,
                 null,
-                new ParameterizedTypeReference<List<StatDTO>>() {
+                new ParameterizedTypeReference<List<StatDto>>() {
                 });
     }
 
